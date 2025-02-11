@@ -9,9 +9,9 @@ use std::sync::{Arc, Mutex};
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Book {
-    title: String,
-    author: String,
-    year: i32,
+    pub title: String,
+    pub author: String,
+    pub year: i32,
 }
 
 pub struct BookStore {
@@ -39,8 +39,9 @@ impl BookStore {
     }
 
     pub fn update_book(&self, id: &str, book: Book) -> bool {
-        if let Some(_) = self.books.lock().unwrap().get(id) {
-            self.books.lock().unwrap().insert(id.to_string(), book);
+        let mut map = self.books.lock().unwrap();
+        if let Some(_) = map.get(id) {
+            map.insert(id.to_string(), book);
             true
         } else {
             false
